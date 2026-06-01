@@ -2,7 +2,7 @@ package com.pao.laboratory09.exercise1;
 
 import com.pao.test.IOTest;
 
-public class Checker {
+public class    Checker {
     public static void main(String[] args) {
         // Rulează toate testele:
         IOTest.runParts("src/com/pao/laboratory09/exercise1/tests", Main::main);
