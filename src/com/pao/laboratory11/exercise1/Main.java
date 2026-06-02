@@ -1,6 +1,5 @@
 package com.pao.laboratory11.exercise1;
 
-// Imports for command parsing and in-memory ranking/lookup structures.
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -34,13 +33,11 @@ public class Main {
         try {
             run();
         } catch (IOException e) {
-            // Keep deterministic output for checker-based tests.
             System.out.println("ERR IO");
         }
     }
 
     private static void run() throws IOException {
-        // Read dataset and then execute Q commands over the in-memory model.
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String first = readNonEmptyLine(br);
         if (first == null) {
@@ -105,7 +102,6 @@ public class Main {
                     break;
 
                 case "LIST_FLAGGED":
-                    // Build flagged view and keep deterministic ordering for tests.
                     List<Transaction> flagged = new ArrayList<>();
                     for (Transaction t : all) {
                         if (isFlagged(t)) {
@@ -154,7 +150,6 @@ public class Main {
     }
 
     private static int riskScore(Transaction tx) {
-        // Composite risk scoring used by CHECK, LIST_FLAGGED and TOP_RISK.
         int score = 0;
 
         if (tx.amount >= 5000.0) {

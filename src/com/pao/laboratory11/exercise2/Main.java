@@ -15,7 +15,6 @@ public class Main {
         try {
             run();
         } catch (IOException e) {
-            // Keep deterministic checker output.
         }
     }
 
@@ -110,7 +109,6 @@ public class Main {
                 }
 
                 default:
-                    // Ignore unknown commands.
                     break;
             }
         }
