@@ -13,7 +13,7 @@ public class Carte implements Comparable<Carte> {
         this.titlu = titlu;
         this.autor = autor;
         this.sectiune = sectiune;
-        this.disponibila = true; // Disponibila by default
+        this.disponibila = true;
     }
 
     public ISBN getIsbn() { return isbn; }

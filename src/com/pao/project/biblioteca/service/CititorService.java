@@ -52,10 +52,8 @@ public class CititorService {
             Cititor cititor = cititoriMap.get(cnp);
             if (cititor == null) throw new CititorNegasitException("Nu exista cititor cu CNP " + cnp);
 
-            // Validare din celalalt serviciu
             Carte carte = CarteService.getInstance().preiaCartePentruImprumut(isbnValoare);
 
-            // Logic
             Imprumut imprumut = new Imprumut(carte);
             cititor.adaugaImprumut(imprumut);
             CarteService.getInstance().setDisponibilitate(isbnValoare, false);

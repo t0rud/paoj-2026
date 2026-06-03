@@ -4,7 +4,7 @@ import java.time.LocalDate;
 public class Imprumut {
     private Carte carte;
     private LocalDate dataImprumut;
-    private LocalDate dataReturnare; // Poate fi null daca inca nu a fost returnata
+    private LocalDate dataReturnare;
 
     public Imprumut(Carte carte) {
         this.carte = carte;

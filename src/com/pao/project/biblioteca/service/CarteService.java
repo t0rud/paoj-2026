@@ -10,9 +10,7 @@ import java.util.*;
 public class CarteService {
     private static CarteService instance;
 
-    // Colectie sortata by default folosind comparable-ul din clasa Carte
     private final Set<Carte> inventarCarti;
-    // Map pentru indexare
     private final Map<String, Carte> indexDupaIsbn;
 
     private CarteService() {

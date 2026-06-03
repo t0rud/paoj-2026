@@ -9,7 +9,6 @@ public class Main {
         CarteService carteService = CarteService.getInstance();
         CititorService cititorService = CititorService.getInstance();
 
-        // Generare date initiale
         Autor a1 = new Autor("Eminescu", "Mihai");
         Autor a2 = new Autor("Martin", "Robert C.");
 
@@ -20,61 +19,49 @@ public class Main {
         Cititor cit1 = new Cititor("123456789", "Popescu Ion");
         Cititor cit2 = new Cititor("987654321", "Ionescu Maria");
 
-        // Executarea celor 10 actiuni:
 
-        // 1. Adauga o carte noua
         carteService.adaugaCarte(c1);
         carteService.adaugaCarte(c2);
         carteService.adaugaCarte(c3);
         System.out.println("Actiunea 1: Carti adaugate cu succes.\n");
 
-        // 2. inregistreaza un cititor nou
         System.out.println("Actiunea 2:");
         cititorService.inregistreazaCititor(cit1);
         cititorService.inregistreazaCititor(cit2);
         System.out.println();
 
-        // 3. imprumuta o carte
         System.out.println("Actiunea 3:");
         cititorService.imprumutaCarte("123456789", "222-222"); // Ion imprumuta Clean Code
 
-        // Demonstram prinderea exceptiei CarteNedisponibilaException
         cititorService.imprumutaCarte("987654321", "222-222"); // Maria incearca sa ia Clean Code
         System.out.println();
 
-        // 4. Returneaza o carte
         System.out.println("Actiunea 4:");
         cititorService.returneazaCarte("123456789", "222-222"); // Ion returneaza
         System.out.println();
 
-        // 5. Cauta carti dupa autor
         System.out.println("Actiunea 5:");
         carteService.cautaCartiDupaAutor("Robert");
         System.out.println();
 
-        // 6. Listeaza toate cartile dintr-o sectiune
         System.out.println("Actiunea 6:");
         carteService.listeazaCartiDinSectiune(Sectiune.PROGRAMARE);
         System.out.println();
 
-        // 7. Afișeaza istoricul imprumuturilor unui cititor
         System.out.println("Actiunea 7:");
         cititorService.imprumutaCarte("123456789", "111-111"); // il imprumutam din nou sa ramana nereturnat
         cititorService.afiseazaIstoric("123456789");
         System.out.println();
 
-        // 8. Verifica disponibilitatea unei carti
         System.out.println("Actiunea 8:");
         carteService.verificaDisponibilitate(new ISBN("111-111")); // Ar trebui sa fie false (imprumutata anterior)
         carteService.verificaDisponibilitate(new ISBN("333-333")); // Ar trebui sa fie true
         System.out.println();
 
-        // 9. Listeaza toti cititorii inregistrati
         System.out.println("Actiunea 9:");
         cititorService.listeazaTotiCititorii();
         System.out.println();
 
-        // 10. Elimina un cititor din sistem
         System.out.println("Actiunea 10:");
         cititorService.eliminaCititor("987654321"); // Eliminam pe Maria
         cititorService.listeazaTotiCititorii();
