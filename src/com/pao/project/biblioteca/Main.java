@@ -5,6 +5,7 @@ import com.pao.project.biblioteca.model.Carte;
 import com.pao.project.biblioteca.model.Cititor;
 import com.pao.project.biblioteca.model.ISBN;
 import com.pao.project.biblioteca.model.Sectiune;
+import com.pao.project.biblioteca.service.AuditService;
 import com.pao.project.biblioteca.service.CarteService;
 import com.pao.project.biblioteca.service.CititorService;
 import java.util.Scanner;
@@ -13,6 +14,7 @@ public class Main {
     public static void main(String[] args) {
         CarteService carteService = CarteService.getInstance();
         CititorService cititorService = CititorService.getInstance();
+        AuditService auditService = AuditService.getInstance();
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
@@ -55,6 +57,7 @@ public class Main {
                         Autor autor = new Autor(numeAutor, prenumeAutor);
                         Carte carte = new Carte(new ISBN(isbnStr), titlu, autor, sectiune);
                         carteService.adaugaCarte(carte);
+                        auditService.logAction("AdaugaCarte");
                     } catch (IllegalArgumentException e) {
                         System.out.println("Sectiune invalida!");
                     }
@@ -65,6 +68,7 @@ public class Main {
                     System.out.print("Introdu Nume: ");
                     String nume = scanner.nextLine();
                     cititorService.inregistreazaCititor(new Cititor(cnp, nume));
+                    auditService.logAction("InregistrareCititor");
                     break;
                 case 3:
                     System.out.print("Introdu CNP cititor: ");
@@ -72,6 +76,7 @@ public class Main {
                     System.out.print("Introdu ISBN carte: ");
                     String isbnImprumut = scanner.nextLine();
                     cititorService.imprumutaCarte(cnpImprumut, isbnImprumut);
+                    auditService.logAction("ImprumutaCarte");
                     break;
                 case 4:
                     System.out.print("Introdu CNP cititor: ");
@@ -79,17 +84,20 @@ public class Main {
                     System.out.print("Introdu ISBN carte: ");
                     String isbnReturnare = scanner.nextLine();
                     cititorService.returneazaCarte(cnpReturnare, isbnReturnare);
+                    auditService.logAction("ReturneazaCarte");
                     break;
                 case 5:
                     System.out.print("Introdu nume autor: ");
                     String numeAutorCautat = scanner.nextLine();
                     carteService.cautaCartiDupaAutor(numeAutorCautat);
+                    auditService.logAction("CautaCartiDupaAutor");
                     break;
                 case 6:
                     System.out.print("Introdu sectiunea (FICTIUNE, STIINTA, ISTORIE, PROGRAMARE): ");
                     String sect = scanner.nextLine().toUpperCase();
                     try {
                         carteService.listeazaCartiDinSectiune(Sectiune.valueOf(sect));
+                        auditService.logAction("ListeazaCartiSectiune");
                     } catch (IllegalArgumentException e) {
                         System.out.println("Sectiune invalida!");
                     }
@@ -98,23 +106,28 @@ public class Main {
                     System.out.print("Introdu CNP cititor: ");
                     String cnpIstoric = scanner.nextLine();
                     cititorService.afiseazaIstoric(cnpIstoric);
+                    auditService.logAction("AfiseazaIstoricCititor");
                     break;
                 case 8:
                     System.out.print("Introdu ISBN: ");
                     String isbnVerif = scanner.nextLine();
                     carteService.verificaDisponibilitate(new ISBN(isbnVerif));
+                    auditService.logAction("VerificaDisponibilitateCarte");
                     break;
                 case 9:
                     cititorService.listeazaTotiCititorii();
+                    auditService.logAction("ListeazaCititori");
                     break;
                 case 10:
                     System.out.print("Introdu CNP cititor de eliminat: ");
                     String cnpEliminare = scanner.nextLine();
                     cititorService.eliminaCititor(cnpEliminare);
+                    auditService.logAction("EliminaCititor");
                     break;
                 case 0:
                     running = false;
                     System.out.println("Iesire din aplicatie. La revedere!");
+                    auditService.logAction("IesireAplicatie");
                     break;
                 default:
                     System.out.println("Optiune invalida! Te rog sa incerci din nou.");
