@@ -9,12 +9,15 @@ public class Autor {
         this.prenume = prenume;
     }
 
-    public String getNumeComplet() {
-        return prenume + " " + nume;
+    public String getNume() {
+        return nume;
     }
 
-    @Override
-    public String toString() {
-        return getNumeComplet();
+    public String getPrenume() {
+        return prenume;
+    }
+
+    public String getNumeComplet() {
+        return prenume + " " + nume;
     }
 }

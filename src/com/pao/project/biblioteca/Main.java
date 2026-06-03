@@ -1,82 +1,125 @@
 package com.pao.project.biblioteca;
 
-import com.pao.project.biblioteca.model.*;
+import com.pao.project.biblioteca.model.Autor;
+import com.pao.project.biblioteca.model.Carte;
+import com.pao.project.biblioteca.model.Cititor;
+import com.pao.project.biblioteca.model.ISBN;
+import com.pao.project.biblioteca.model.Sectiune;
 import com.pao.project.biblioteca.service.CarteService;
 import com.pao.project.biblioteca.service.CititorService;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         CarteService carteService = CarteService.getInstance();
         CititorService cititorService = CititorService.getInstance();
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
 
-        // Generare date initiale
-        Autor a1 = new Autor("Eminescu", "Mihai");
-        Autor a2 = new Autor("Martin", "Robert C.");
+        while (running) {
+            System.out.println("\n--- MENIU BIBLIOTECA ---");
+            System.out.println("1. Adauga o carte noua");
+            System.out.println("2. Inregistreaza un cititor nou");
+            System.out.println("3. Imprumuta o carte unui cititor");
+            System.out.println("4. Returneaza o carte");
+            System.out.println("5. Cauta carti dupa autor");
+            System.out.println("6. Listeaza toate cartile dintr-o sectiune");
+            System.out.println("7. Afiseaza istoricul imprumuturilor unui cititor");
+            System.out.println("8. Verifica disponibilitatea unei carti");
+            System.out.println("9. Listeaza toti cititorii inregistrati");
+            System.out.println("10. Elimina un cititor din sistem");
+            System.out.println("0. Iesire");
+            System.out.print("Alege o optiune: ");
 
-        Carte c1 = new Carte(new ISBN("111-111"), "Poezii", a1, Sectiune.FICTIUNE);
-        Carte c2 = new Carte(new ISBN("222-222"), "Clean Code", a2, Sectiune.PROGRAMARE);
-        Carte c3 = new Carte(new ISBN("333-333"), "Clean Architecture", a2, Sectiune.PROGRAMARE);
+            int optiune = -1;
+            if (scanner.hasNextInt()) {
+                optiune = scanner.nextInt();
+            }
+            scanner.nextLine();
 
-        Cititor cit1 = new Cititor("123456789", "Popescu Ion");
-        Cititor cit2 = new Cititor("987654321", "Ionescu Maria");
+            switch (optiune) {
+                case 1:
+                    System.out.print("Introdu ISBN: ");
+                    String isbnStr = scanner.nextLine();
+                    System.out.print("Introdu titlu: ");
+                    String titlu = scanner.nextLine();
+                    System.out.print("Introdu nume autor: ");
+                    String numeAutor = scanner.nextLine();
+                    System.out.print("Introdu prenume autor: ");
+                    String prenumeAutor = scanner.nextLine();
+                    System.out.print("Introdu sectiune (FICTIUNE, STIINTA, ISTORIE, PROGRAMARE): ");
+                    String sectiuneStr = scanner.nextLine().toUpperCase();
 
-        // Executarea celor 10 actiuni:
-
-        // 1. Adauga o carte noua
-        carteService.adaugaCarte(c1);
-        carteService.adaugaCarte(c2);
-        carteService.adaugaCarte(c3);
-        System.out.println("Actiunea 1: Carti adaugate cu succes.\n");
-
-        // 2. inregistreaza un cititor nou
-        System.out.println("Actiunea 2:");
-        cititorService.inregistreazaCititor(cit1);
-        cititorService.inregistreazaCititor(cit2);
-        System.out.println();
-
-        // 3. imprumuta o carte
-        System.out.println("Actiunea 3:");
-        cititorService.imprumutaCarte("123456789", "222-222"); // Ion imprumuta Clean Code
-
-        // Demonstram prinderea exceptiei CarteNedisponibilaException
-        cititorService.imprumutaCarte("987654321", "222-222"); // Maria incearca sa ia Clean Code
-        System.out.println();
-
-        // 4. Returneaza o carte
-        System.out.println("Actiunea 4:");
-        cititorService.returneazaCarte("123456789", "222-222"); // Ion returneaza
-        System.out.println();
-
-        // 5. Cauta carti dupa autor
-        System.out.println("Actiunea 5:");
-        carteService.cautaCartiDupaAutor("Robert");
-        System.out.println();
-
-        // 6. Listeaza toate cartile dintr-o sectiune
-        System.out.println("Actiunea 6:");
-        carteService.listeazaCartiDinSectiune(Sectiune.PROGRAMARE);
-        System.out.println();
-
-        // 7. Afișeaza istoricul imprumuturilor unui cititor
-        System.out.println("Actiunea 7:");
-        cititorService.imprumutaCarte("123456789", "111-111"); // il imprumutam din nou sa ramana nereturnat
-        cititorService.afiseazaIstoric("123456789");
-        System.out.println();
-
-        // 8. Verifica disponibilitatea unei carti
-        System.out.println("Actiunea 8:");
-        carteService.verificaDisponibilitate(new ISBN("111-111")); // Ar trebui sa fie false (imprumutata anterior)
-        carteService.verificaDisponibilitate(new ISBN("333-333")); // Ar trebui sa fie true
-        System.out.println();
-
-        // 9. Listeaza toti cititorii inregistrati
-        System.out.println("Actiunea 9:");
-        cititorService.listeazaTotiCititorii();
-        System.out.println();
-
-        // 10. Elimina un cititor din sistem
-        System.out.println("Actiunea 10:");
-        cititorService.eliminaCititor("987654321"); // Eliminam pe Maria
-        cititorService.listeazaTotiCititorii();
+                    try {
+                        Sectiune sectiune = Sectiune.valueOf(sectiuneStr);
+                        Autor autor = new Autor(numeAutor, prenumeAutor);
+                        Carte carte = new Carte(new ISBN(isbnStr), titlu, autor, sectiune);
+                        carteService.adaugaCarte(carte);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Sectiune invalida!");
+                    }
+                    break;
+                case 2:
+                    System.out.print("Introdu CNP: ");
+                    String cnp = scanner.nextLine();
+                    System.out.print("Introdu Nume: ");
+                    String nume = scanner.nextLine();
+                    cititorService.inregistreazaCititor(new Cititor(cnp, nume));
+                    break;
+                case 3:
+                    System.out.print("Introdu CNP cititor: ");
+                    String cnpImprumut = scanner.nextLine();
+                    System.out.print("Introdu ISBN carte: ");
+                    String isbnImprumut = scanner.nextLine();
+                    cititorService.imprumutaCarte(cnpImprumut, isbnImprumut);
+                    break;
+                case 4:
+                    System.out.print("Introdu CNP cititor: ");
+                    String cnpReturnare = scanner.nextLine();
+                    System.out.print("Introdu ISBN carte: ");
+                    String isbnReturnare = scanner.nextLine();
+                    cititorService.returneazaCarte(cnpReturnare, isbnReturnare);
+                    break;
+                case 5:
+                    System.out.print("Introdu nume autor: ");
+                    String numeAutorCautat = scanner.nextLine();
+                    carteService.cautaCartiDupaAutor(numeAutorCautat);
+                    break;
+                case 6:
+                    System.out.print("Introdu sectiunea (FICTIUNE, STIINTA, ISTORIE, PROGRAMARE): ");
+                    String sect = scanner.nextLine().toUpperCase();
+                    try {
+                        carteService.listeazaCartiDinSectiune(Sectiune.valueOf(sect));
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Sectiune invalida!");
+                    }
+                    break;
+                case 7:
+                    System.out.print("Introdu CNP cititor: ");
+                    String cnpIstoric = scanner.nextLine();
+                    cititorService.afiseazaIstoric(cnpIstoric);
+                    break;
+                case 8:
+                    System.out.print("Introdu ISBN: ");
+                    String isbnVerif = scanner.nextLine();
+                    carteService.verificaDisponibilitate(new ISBN(isbnVerif));
+                    break;
+                case 9:
+                    cititorService.listeazaTotiCititorii();
+                    break;
+                case 10:
+                    System.out.print("Introdu CNP cititor de eliminat: ");
+                    String cnpEliminare = scanner.nextLine();
+                    cititorService.eliminaCititor(cnpEliminare);
+                    break;
+                case 0:
+                    running = false;
+                    System.out.println("Iesire din aplicatie. La revedere!");
+                    break;
+                default:
+                    System.out.println("Optiune invalida! Te rog sa incerci din nou.");
+            }
+        }
+        scanner.close();
     }
 }
