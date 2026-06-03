@@ -1,6 +1,5 @@
 package com.pao.laboratory12.exercise2;
 
-// Importam din exercitiul 1 tot ce avem nevoie pentru baza de date
 import com.pao.laboratory12.exercise1.model.*;
 import com.pao.laboratory12.exercise1.repository.*;
 import com.pao.laboratory12.exercise1.util.DatabaseConnection;
